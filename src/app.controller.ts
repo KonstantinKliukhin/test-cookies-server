@@ -10,13 +10,12 @@ export class AppController {
 
   @Get('set-cookies')
   getCookie(@Res({ passthrough: true }) res: Response) {
-    res.cookie('__Secure-custom-cookie', '123123', {
+    res.cookie('custom-cookie', '123123', {
       sameSite: 'none',
       httpOnly: true,
       expires: new Date(Date.now() + 60 * 10000),
-      secure: true,
+      // secure: true,
       path: '/',
-      partitioned: true,
     });
 
     return { some: true };
