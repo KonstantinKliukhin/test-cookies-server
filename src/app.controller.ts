@@ -16,6 +16,7 @@ export class AppController {
       expires: new Date(Date.now() + 60 * 10000),
       secure: true,
       path: '/',
+      partitioned: true,
     });
 
     return { some: true };
