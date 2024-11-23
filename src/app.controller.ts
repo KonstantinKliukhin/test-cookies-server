@@ -15,7 +15,7 @@ export class AppController {
       httpOnly: true,
       expires: new Date(Date.now() + 60 * 10000),
       secure: true,
-      domain: '.my-test-domain.xyz',
+      domain: 'my-test-domain.xyz',
       path: '/',
     });
 
