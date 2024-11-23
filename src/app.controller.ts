@@ -14,6 +14,7 @@ export class AppController {
       httpOnly: true,
       expires: new Date(Date.now() + 60 * 10000),
       path: '/',
+      secure: true,
     });
 
     return { some: true };
