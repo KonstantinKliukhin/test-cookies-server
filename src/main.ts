@@ -7,7 +7,11 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://vtnews.ai'],
+    origin: [
+      'http://localhost:3000',
+      'https://vtnews.ai',
+      'http://localhost.charlesproxy.com:3000',
+    ],
     methods: ['GET', 'POST'],
     credentials: true,
   });
