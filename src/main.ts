@@ -13,6 +13,7 @@ async function bootstrap() {
       'http://localhost.charlesproxy.com:3000',
       'https://www.my-test-domain.xyz',
       'https://my-test-domain.xyz',
+      'http://local.my-test-domain.xyz:3000',
     ],
     methods: ['GET', 'POST'],
     credentials: true,
