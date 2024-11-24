@@ -15,7 +15,6 @@ export class AppController {
       expires: new Date(Date.now() + 60 * 10000),
       domain: 'my-test-domain.xyz',
       path: '/',
-      sameSite: 'lax',
     });
 
     return { some: true };
