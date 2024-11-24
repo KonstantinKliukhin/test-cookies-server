@@ -8,44 +8,44 @@ type Product = { id: string; title: string };
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('set-localhost-chrome-cookies')
-  setLocalhostChromeCookies(@Res({ passthrough: true }) res: Response) {
-    res.cookie('localhost-cookie', '123123', {
-      httpOnly: true,
-      expires: new Date(Date.now() + 60 * 10000),
-      domain: 'my-test-domain.xyz',
-      path: '/',
-      sameSite: 'none',
-      secure: true,
-    });
-
-    return { some: true };
-  }
-
-  @Get('set-localhost-cookies')
-  setLocalhostCookies(@Res({ passthrough: true }) res: Response) {
-    res.cookie('localhost-cookie', '123123', {
-      httpOnly: true,
-      expires: new Date(Date.now() + 60 * 10000),
-      domain: 'my-test-domain.xyz',
-      path: '/',
-    });
-
-    return { some: true };
-  }
-
   @Get('set-cookies')
-  getCookie(@Res({ passthrough: true }) res: Response) {
-    res.cookie('custom-cookie', '123123', {
-      sameSite: 'none',
-      httpOnly: true,
-      expires: new Date(Date.now() + 60 * 10000),
-      secure: true,
-      domain: 'my-test-domain.xyz',
-      path: '/',
-    });
+  setLocalhostChromeCookies(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const isLocal = req
+      .header('origin')
+      .startsWith('http://local.my-test-domain.xyz');
+    const isSafari = req.header('user-agent').includes('Safari');
 
-    return { some: true };
+    if (isLocal && isSafari) {
+      res.cookie('local-safari-cookie', '123123', {
+        httpOnly: true,
+        expires: new Date(Date.now() + 60 * 10000),
+        domain: 'my-test-domain.xyz',
+        path: '/',
+      });
+    } else if (isLocal) {
+      res.cookie('local-cookie', '123123', {
+        httpOnly: true,
+        expires: new Date(Date.now() + 60 * 10000),
+        domain: 'my-test-domain.xyz',
+        path: '/',
+        sameSite: 'none',
+        secure: true,
+      });
+    } else {
+      res.cookie('prod-cookie', '123123', {
+        sameSite: 'none',
+        httpOnly: true,
+        expires: new Date(Date.now() + 60 * 10000),
+        secure: true,
+        domain: 'my-test-domain.xyz',
+        path: '/',
+      });
+    }
+
+    return { isLocal, isSafari };
   }
 
   @Get('my-cookies')
