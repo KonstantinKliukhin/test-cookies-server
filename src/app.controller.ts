@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Req, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response, Request } from 'express';
-
+import { UAParser } from 'ua-parser-js';
 type Product = { id: string; title: string };
 
 @Controller()
@@ -16,7 +16,9 @@ export class AppController {
     const isLocal = req
       .header('origin')
       .startsWith('http://local.my-test-domain.xyz');
-    const isSafari = req.header('user-agent').includes('Safari');
+    const browserName = UAParser(req.header('user-agent')).browser.name;
+
+    const isSafari = browserName === 'Safari';
 
     if (isLocal && isSafari) {
       res.cookie('local-safari-cookie', '123123', {
