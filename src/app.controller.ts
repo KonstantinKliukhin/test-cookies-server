@@ -11,11 +11,10 @@ export class AppController {
   @Get('set-localhost-cookies')
   setLocalhostCookies(@Res({ passthrough: true }) res: Response) {
     res.cookie('localhost-cookie', '123123', {
-      sameSite: 'none',
       httpOnly: true,
       expires: new Date(Date.now() + 60 * 10000),
+      domain: 'my-test-domain.xyz',
       path: '/',
-      secure: true,
     });
 
     return { some: true };
