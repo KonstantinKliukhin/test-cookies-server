@@ -8,6 +8,20 @@ type Product = { id: string; title: string };
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Get('set-localhost-chrome-cookies')
+  setLocalhostChromeCookies(@Res({ passthrough: true }) res: Response) {
+    res.cookie('localhost-cookie', '123123', {
+      httpOnly: true,
+      expires: new Date(Date.now() + 60 * 10000),
+      domain: 'my-test-domain.xyz',
+      path: '/',
+      sameSite: 'none',
+      secure: true,
+    });
+
+    return { some: true };
+  }
+
   @Get('set-localhost-cookies')
   setLocalhostCookies(@Res({ passthrough: true }) res: Response) {
     res.cookie('localhost-cookie', '123123', {
@@ -15,7 +29,6 @@ export class AppController {
       expires: new Date(Date.now() + 60 * 10000),
       domain: 'my-test-domain.xyz',
       path: '/',
-      sameSite: 'none',
     });
 
     return { some: true };
